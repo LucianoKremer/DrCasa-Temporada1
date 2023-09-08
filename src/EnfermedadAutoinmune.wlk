@@ -1,13 +1,9 @@
 class EnfermedadAutoinmune {
 	var property cantidadCelulasAmenazadas 
-	var property diasAtacando
+	var property diasAtacando = 0
 		
 	method reproducirse(){
 		cantidadCelulasAmenazadas = cantidadCelulasAmenazadas*2
-	}
-	
-	method celulasAfectadas(){
-		return cantidadCelulasAmenazadas
 	}
 	
 	method atacar(unaPersona){

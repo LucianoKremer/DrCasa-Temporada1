@@ -5,10 +5,6 @@ class EnfermedadInfecciosa {
 		cantidadCelulasAmenazadas = cantidadCelulasAmenazadas*2
 	}
 	
-	method celulasAfectadas(){
-		return cantidadCelulasAmenazadas
-	}
-	
 	method atacar(unaPersona){
 		unaPersona.subirTemperatura(cantidadCelulasAmenazadas/1000)
 	}

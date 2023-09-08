@@ -4,12 +4,12 @@ class Persona {
 	var property temperatura = 36
 	var property celulas
 	
-	method contraerEnfermedad(unaEnfermedad){
-		enfermedades.add(unaEnfermedad)
+	method contraerEnfermedad (unaEnfermedad) {
+		enfermedades.add (unaEnfermedad)
 	}
 	
 	method vivirUnDia(){
-		enfermedades.forEach {unaEnfermedad => self.meAfecta(unaEnfermedad)}
+		enfermedades.forEach { unaEnfermedad => self.meAfecta (unaEnfermedad) }
 	}
 	
 	method meAfecta(unaEnfermedad){
@@ -21,24 +21,17 @@ class Persona {
 	}
 	
 	method subirTemperatura(unaTemperatura){
-		if(temperatura +unaTemperatura >= 45){
-			temperatura = 45
-		} else {
-			temperatura += unaTemperatura
-		}
+		temperatura = 45.min (temperatura+unaTemperatura)
 	}
 	
 	method perderCelulas(unasCelulas){
-		celulas -= unasCelulas	
-		if(celulas < 1000000){
-			celulas = 1000000
-			}
+		celulas = 0.max (celulas - unasCelulas)	
 	}
 	
-	method estaEnComa() = celulas == 1000000 || temperatura == 45
+	method estaEnComa() = celulas <= 1000000 || temperatura == 45
 	
 	method afeccionPorEnfermedadesAgresivas(){
-		return self.enfermedadesAgresivas().sum{unaEnfermedad => unaEnfermedad.celulasAfectadas()}
+		return self.enfermedadesAgresivas().sum { unaEnfermedad => unaEnfermedad.cantidadCelulasAmenazadas() }
 	}
 	
 	method enfermedadesAgresivas() {
