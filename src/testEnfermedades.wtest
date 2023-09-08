@@ -35,6 +35,15 @@ describe "Enfermos" {
 	test "Punto 3 - Hacer que Logan viva un día de su vida "{
 		logan.vivirUnDia()		
 		assert.equals(logan.enfermedadMasDanina(),lupus)
+		assert.that(not(logan.estaEnComa()))
+		assert.equals(logan.afeccionPorEnfermedadesAgresivas(),0)
+	}
+	
+		test "Punto 4 - Hacer que Logan viva un mes de su vida "{
+		31.times({i=>logan.vivirUnDia()})	
+		assert.equals(logan.enfermedadMasDanina(),lupus)
+		assert.that(logan.estaEnComa())
+		assert.equals(logan.afeccionPorEnfermedadesAgresivas(),10000)
 	}
 	
 
