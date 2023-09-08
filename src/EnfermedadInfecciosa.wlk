@@ -13,7 +13,7 @@ class EnfermedadInfecciosa {
 		unaPersona.subirTemperatura(cantidadCelulasAmenazadas/1000)
 	}
 	
-	method diasAtacando() = 0
-	
-	method pasoUnDia()
+	method soyAgresivaPara(unaPersona){
+		return unaPersona.celulas() * 0.1 < cantidadCelulasAmenazadas
+	}
 }

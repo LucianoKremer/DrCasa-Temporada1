@@ -1,4 +1,3 @@
-
 class Persona {
 	var property enfermedades = []
 	var property temperatura = 36
@@ -15,7 +14,6 @@ class Persona {
 	
 	method meAfecta(unaEnfermedad){
 		unaEnfermedad.atacar(self)
-		unaEnfermedad.pasoUnDia()
 	}
 	
 	method enfermedadMasDanina() {
@@ -33,19 +31,20 @@ class Persona {
 	
 	method perderCelulas(unasCelulas){
 		celulas -= unasCelulas	
-		
 		if(celulas < 100000){
 			estaEnComa = true
-		}
-		
+			celulas = 100000
+			}
 	}
 	
 	method estado() = estaEnComa
 	
 	method afeccionPorEnfermedadesAgresivas(){
-		return enfermedades.filter { unaEnfermedad => self.esAgresiva(unaEnfermedad) }.sum()
+		return self.enfermedadesAgresivas().sum{unaEnfermedad => unaEnfermedad.celulasAfectadas()}
 	}
 	
-	method esAgresiva(unaEnfermedad) = unaEnfermedad.diasAtacando() > 30 || unaEnfermedad.celulasAfectadas() > celulas * 0.1
-	
+	method enfermedadesAgresivas() {
+		return enfermedades.filter { unaEnfermedad => unaEnfermedad.soyAgresivaPara(self)}
+	}
 }
+

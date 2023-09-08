@@ -1,0 +1,41 @@
+import Persona.*
+import EnfermedadInfecciosa.*
+import EnfermedadAutoinmune.*
+
+describe "Enfermos" {
+	var frank
+	var logan
+	var unaMalaria
+	var otraMalaria
+	var otitis
+	var lupus
+	
+	method initialize(){
+		frank = new Persona(celulas=3500000)
+		logan = new Persona(celulas=3000000)
+		unaMalaria = new EnfermedadInfecciosa(cantidadCelulasAmenazadas=500)
+		otraMalaria = new EnfermedadInfecciosa(cantidadCelulasAmenazadas=800)
+		otitis = new EnfermedadInfecciosa(cantidadCelulasAmenazadas=100)
+		lupus = new EnfermedadAutoinmune(cantidadCelulasAmenazadas=10000,diasAtacando=0)
+		logan.contraerEnfermedad(unaMalaria)
+		logan.contraerEnfermedad(otitis)
+		logan.contraerEnfermedad(lupus)
+	}
+	
+	test "Punto 1 - Hacer que Frank contraiga la enfermedad del ítem b) "{
+		frank.contraerEnfermedad(otraMalaria)
+		assert.equals([otraMalaria],frank.enfermedades())
+	}
+	
+	test "Punto 2 - Hacer que una malaria (la que contrajo Logan) se reproduzca. "{
+		unaMalaria.reproducirse()
+		assert.equals(unaMalaria.cantidadCelulasAmenazadas(),1000)
+	}
+	
+	test "Punto 3 - Hacer que Logan viva un día de su vida "{
+		logan.vivirUnDia()		
+		assert.equals(logan.enfermedadMasDanina(),lupus)
+	}
+	
+
+}

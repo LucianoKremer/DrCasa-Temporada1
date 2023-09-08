@@ -1,5 +1,5 @@
 class EnfermedadAutoinmune {
-	var property cantidadCelulasAmenazadas
+	var property cantidadCelulasAmenazadas 
 	var property diasAtacando
 		
 	method reproducirse(){
@@ -12,10 +12,13 @@ class EnfermedadAutoinmune {
 	
 	method atacar(unaPersona){
 		unaPersona.perderCelulas(cantidadCelulasAmenazadas)
+		self.pasoUnDia()
 	}
 	
-	method diasAtacando() = diasAtacando
-	
+	method soyAgresivaPara(unaPersona){
+		return diasAtacando > 30
+	}
+
 	method pasoUnDia(){
 		diasAtacando++
 	}
