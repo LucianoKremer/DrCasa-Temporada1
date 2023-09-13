@@ -11,7 +11,12 @@ class Persona {
 	method vivirUnDia(){
 		enfermedades.forEach { unaEnfermedad => unaEnfermedad.atacar(self) }
 	}
-	
+
+        method vivirUnosDias (unosDias) {
+                unosDias.times({i => self.vivirUnDia() })
+        }
+
+
 	method enfermedadMasDanina() {
 		return enfermedades.max { unaEnfermedad => unaEnfermedad.celulasAfectadas() }
 	}
