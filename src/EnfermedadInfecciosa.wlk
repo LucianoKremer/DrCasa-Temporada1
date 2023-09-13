@@ -2,7 +2,7 @@ class EnfermedadInfecciosa {
 	var property cantidadCelulasAmenazadas
 	
 	method reproducirse(){
-		cantidadCelulasAmenazadas = cantidadCelulasAmenazadas*2
+		cantidadCelulasAmenazadas *= 2
 	}
 	
 	method atacar(unaPersona){
