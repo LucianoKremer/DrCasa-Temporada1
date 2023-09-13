@@ -9,11 +9,7 @@ class Persona {
 	}
 	
 	method vivirUnDia(){
-		enfermedades.forEach { unaEnfermedad => self.meAfecta (unaEnfermedad) }
-	}
-	
-	method meAfecta(unaEnfermedad){
-		unaEnfermedad.atacar(self)
+		enfermedades.forEach { unaEnfermedad => unaEnfermedad.atacar(self) }
 	}
 	
 	method enfermedadMasDanina() {
