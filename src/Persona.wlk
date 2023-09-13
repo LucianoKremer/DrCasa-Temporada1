@@ -13,7 +13,7 @@ class Persona {
 	}
 
         method vivirUnosDias (unosDias) {
-                unosDias.times({i => self.vivirUnDia() })
+                unosDias.times({ dia => self.vivirUnDia() })
         }
 
 
