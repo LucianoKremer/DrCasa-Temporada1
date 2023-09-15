@@ -1,6 +1,9 @@
 import Persona.*
 import EnfermedadInfecciosa.*
 import EnfermedadAutoinmune.*
+import Medico.*
+import JefeDeDepartamento.*
+import Enfermedad.*
 
 describe "Enfermos" {
 	var frank
@@ -9,8 +12,17 @@ describe "Enfermos" {
 	var otraMalaria
 	var otitis
 	var lupus
+	var laMalaria
+	var elLupus
+	var cameron
+	var house 
+	var sida
 	
 	method initialize(){
+		/* ******************** */
+		/* Dr.Casa Temporada 1  */
+		/* ******************** */
+		
 		frank = new Persona(celulas=3500000)
 		logan = new Persona(celulas=3000000)
 		unaMalaria = new EnfermedadInfecciosa(cantidadCelulasAmenazadas=500)
@@ -20,11 +32,21 @@ describe "Enfermos" {
 		logan.contraerEnfermedad(unaMalaria)
 		logan.contraerEnfermedad(otitis)
 		logan.contraerEnfermedad(lupus)
+		
+		/* ******************** */
+		/* Dr.Casa Temporada 2  */
+		/* ******************** */
+		
+		laMalaria = new EnfermedadInfecciosa(cantidadCelulasAmenazadas=1000)
+		elLupus = new EnfermedadAutoinmune(cantidadCelulasAmenazadas=1000, diasAtacando=0)
+		cameron = new Medico(celulas=2500000, dosis=6)
+		house = new JefeDeDepartamento(celulas=3000000, subordinados = #{cameron})
+		sida = new HIV(autoinmune=lupus, infecciosa=unaMalaria)
 	}
 	
 	test "Punto 1 - Hacer que Frank contraiga la enfermedad del ítem b) "{
 		frank.contraerEnfermedad(otraMalaria)
-		assert.equals([otraMalaria],frank.enfermedades())
+		assert.equals(#{otraMalaria},frank.enfermedades())
 	}
 	
 	test "Punto 2 - Hacer que una malaria (la que contrajo Logan) se reproduzca. "{
@@ -39,12 +61,50 @@ describe "Enfermos" {
 		assert.equals(logan.afeccionPorEnfermedadesAgresivas(),0)
 	}
 	
-		test "Punto 4 - Hacer que Logan viva un mes de su vida "{
+	test "Punto 4 - Hacer que Logan viva un mes de su vida "{
 		31.times({i=>logan.vivirUnDia()})	
 		assert.equals(logan.enfermedadMasDanina(),lupus)
 		assert.that(logan.estaEnComa())
 		assert.equals(logan.afeccionPorEnfermedadesAgresivas(),10000)
 	}
 	
-
+	test "Punto 5 - Hacer que la malaria se atenúe en 100 células y el lupus en 500 células "{
+			laMalaria.atenuarmeEn(100/15)
+			elLupus.atenuarmeEn(500/15)
+			assert.equals(laMalaria.cantidadCelulasAmenazadas(),899.99995)
+			assert.equals(elLupus.cantidadCelulasAmenazadas(),500.00005)
+	}
+	
+	test "Punto 6 - Hacer que Cameron atienda a Logan "{
+			cameron.atenuarEnfermedadDe(logan)
+			assert.equals(unaMalaria.cantidadCelulasAmenazadas(),410)
+	}
+	
+	test "Punto 7 - Hacer que House atienda a Cameron "{
+			cameron.contraerEnfermedad(unaMalaria)
+			cameron.contraerEnfermedad(elLupus)
+			house.atenuarEnfermedadDe(cameron)
+			assert.equals(unaMalaria.cantidadCelulasAmenazadas(),230) /* cada vez que se contagio se curo (3 veces) */
+	}
+	
+	test "Punto 8 - Hacer que Cameron contraiga malaria. Hacer que House contraiga malaria. "{
+			cameron.contraerEnfermedad(unaMalaria)
+			house.contraerEnfermedad(otraMalaria)
+			assert.equals(unaMalaria.cantidadCelulasAmenazadas(),410) 
+			assert.equals(otraMalaria.cantidadCelulasAmenazadas(),710)
+	}
+	
+	test "Punto 9 - Hacer que House contraiga la Muerte "{
+			house.contraerEnfermedad(muerte)
+			house.vivirUnDia()
+			assert.that(house.estaMuerto()) 
+	}
+	
+	test "Extra prueba HIV" {
+		house.contraerEnfermedad(sida)
+		house.vivirUnDia()
+		assert.equals(house.temperatura(),36.41)
+		assert.equals(house.celulas(),2990090)
+	}
+	
 }
